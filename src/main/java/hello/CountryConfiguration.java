@@ -4,9 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
-import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor;
-
-import java.util.List;
+import org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor;
 
 @Configuration
 public class CountryConfiguration {
@@ -23,8 +21,6 @@ public class CountryConfiguration {
     @Bean
     public Jaxb2Marshaller marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        // this package must match the package in the <generatePackage> specified in
-        // pom.xml
         marshaller.setContextPath("hello.wsdl");
         return marshaller;
     }
@@ -35,8 +31,8 @@ public class CountryConfiguration {
         client.setDefaultUri("http://localhost:8080/ws");
         client.setMarshaller(marshaller);
         client.setUnmarshaller(marshaller);
-//        ClientInterceptor[] interceptors = new ClientInterceptor[] {securityInterceptor()};
-//        client.setInterceptors(interceptors);
+        ClientInterceptor[] interceptors = new ClientInterceptor[] {securityInterceptor()};
+        client.setInterceptors(interceptors);
         return client;
     }
 
